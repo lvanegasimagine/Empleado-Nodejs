@@ -16,16 +16,16 @@ app.options('*', cors());
 app.use(bodyParser.json());
 
 //Routers
-app.use(`${api}/empleados`, productsRouter);
+app.use(`/empleados`, productsRouter);
 
-mongoose.connect(process.env.CONNECTION_STRING,{ useNewUrlParser: true, useUnifiedTopology: true, dbName: process.env.DB_NAME }).then(() => {
+mongoose.connect('mongodb+srv://admin:Corea*19@cluster0.eobgu.mongodb.net/empleados?retryWrites=true&w=majority',{ useNewUrlParser: true, useUnifiedTopology: true, dbName: 'empleados' }).then(() => {
     console.log('Database Connection is ready...')
 }).catch((err) => {
     console.error(err);
 })
 
-const PORT = process.env.PORT || 4000
+const PORT = 3000 || 3000
 app.listen(PORT, () => {
-    console.log('Server is runnig http://localhost:4000');
+    console.log('Server is runnig http://localhost:3000');
     console.log(api);
 });
