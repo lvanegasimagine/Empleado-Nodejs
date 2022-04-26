@@ -3,29 +3,34 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const morgan = require('morgan');
 require('dotenv/config');
 
 //Import Routes
-const productsRouter = require('./routes/empleados.routes');
+const departamentoRouter = require('./routes/departamento.routes');
+const cargoRouter = require('./routes/cargo.routes');
 
 const api = process.env.API_URL;
 
 app.use(cors());
 app.options('*', cors());
 
+// Middlewares
 app.use(bodyParser.json());
+app.use(morgan('tiny'));
 
 //Routers
-app.use(`/empleados`, productsRouter);
+app.use(`${api}/departamento`, departamentoRouter);
+app.use(`${api}/cargo`, cargoRouter);
 
-mongoose.connect('mongodb+srv://admin:Corea*19@cluster0.eobgu.mongodb.net/empleados?retryWrites=true&w=majority',{ useNewUrlParser: true, useUnifiedTopology: true, dbName: 'empleados' }).then(() => {
+mongoose.connect(process.env.CONNECTION_STRING,{ useNewUrlParser: true, useUnifiedTopology: true, dbName: 'rrhh' }).then(() => {
     console.log('Database Connection is ready...')
 }).catch((err) => {
     console.error(err);
 })
 
-const PORT = 3000 || 3000
+const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
-    console.log('Server is runnig http://localhost:3000');
+    console.log(`Server is runnig http://localhost:${process.env.PORT}`);
     console.log(api);
 });
